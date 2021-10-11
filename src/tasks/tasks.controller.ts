@@ -16,6 +16,7 @@ import { CreateTaskDto } from './dto/create-task-dto';
 import { GetTasksFiletrDto } from './dto/get-tasks-filter-dto';
 import { TaskStatusValidationpipe } from 'src/pipes/task-status-validation-pipe';
 import { Task } from './task.entity';
+import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -41,8 +42,10 @@ export class TasksController {
   @Patch('/:id/status')
   updateTaskById(
     @Param('id', ParseIntPipe) id: number,
-    @Body('status', TaskStatusValidationpipe) status: string,
+    @Body('status', TaskStatusValidationpipe)
+    updateTaskStatusDto: UpdateTaskStatusDto,
   ): Promise<Task> {
+    const { status } = updateTaskStatusDto;
     return this.tasksService.updateTaskById(id, status);
   }
 }
